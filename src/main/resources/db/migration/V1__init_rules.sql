@@ -1,0 +1,38 @@
+CREATE TABLE IF NOT EXISTS sacco_rules (
+    id              VARCHAR(36)  NOT NULL PRIMARY KEY,
+    tenant_id       VARCHAR(50)  NOT NULL,
+    rule_code       VARCHAR(100) NOT NULL,
+    rule_value      VARCHAR(255) NOT NULL,
+    data_type       VARCHAR(20)  DEFAULT 'STRING',
+    category        VARCHAR(50),
+    description     VARCHAR(300),
+    effective_from  DATE,
+    effective_to    DATE,
+    is_active       TINYINT(1)   NOT NULL DEFAULT 1,
+    created_by      VARCHAR(100),
+    created_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by      VARCHAR(100),
+    UNIQUE KEY uq_tenant_rule (tenant_id, rule_code)
+);
+
+INSERT INTO sacco_rules (id, tenant_id, rule_code, rule_value, data_type, category, description) VALUES
+(UUID(),'default','MIN_JOIN_AGE','18','INTEGER','MEMBERSHIP','Minimum age to join SACCO'),
+(UUID(),'default','MIN_SHARES_TO_JOIN','5','INTEGER','MEMBERSHIP','Minimum shares required on registration'),
+(UUID(),'default','KYC_REQUIRED_FOR_ACTIVATION','true','BOOLEAN','MEMBERSHIP','KYC must be verified before activation'),
+(UUID(),'default','SHARE_PAR_VALUE','10000','DECIMAL','SHARES','Par value per share in TZS'),
+(UUID(),'default','MIN_SHARES','5','INTEGER','SHARES','Minimum shares a member must hold'),
+(UUID(),'default','MAX_SHARES','1000','INTEGER','SHARES','Maximum shares a member can hold'),
+(UUID(),'default','SHARES_TRANSFER_ALLOWED','true','BOOLEAN','SHARES','Whether share transfers are allowed'),
+(UUID(),'default','LOAN_MIN_SHARES','5','INTEGER','LOANS','Minimum shares to qualify for a loan'),
+(UUID(),'default','LOAN_MIN_SAVINGS_MONTHS','3','INTEGER','LOANS','Minimum months of savings to qualify'),
+(UUID(),'default','LOAN_MAX_MULTIPLIER','3','DECIMAL','LOANS','Max loan = multiplier x total share value'),
+(UUID(),'default','LOAN_MIN_GUARANTORS','1','INTEGER','LOANS','Minimum number of guarantors required'),
+(UUID(),'default','LOAN_MAX_GUARANTORS','3','INTEGER','LOANS','Maximum number of guarantors allowed'),
+(UUID(),'default','LOAN_INTEREST_RATE','12','DECIMAL','LOANS','Annual interest rate percentage'),
+(UUID(),'default','LOAN_MAX_REPAYMENT_MONTHS','36','INTEGER','LOANS','Maximum loan repayment period in months'),
+(UUID(),'default','CONTRIBUTION_MONTHLY_AMOUNT','10000','DECIMAL','CONTRIBUTIONS','Monthly contribution amount in TZS'),
+(UUID(),'default','CONTRIBUTION_GRACE_DAYS','5','INTEGER','CONTRIBUTIONS','Grace days before late penalty applies'),
+(UUID(),'default','CONTRIBUTION_PENALTY_AMOUNT','1000','DECIMAL','CONTRIBUTIONS','Penalty amount for late contribution'),
+(UUID(),'default','DIVIDEND_MIN_HOLDING_MONTHS','6','INTEGER','DIVIDENDS','Minimum months holding shares for dividend'),
+(UUID(),'default','DIVIDEND_COMPUTATION_METHOD','PRO_RATA','STRING','DIVIDENDS','How dividends are computed');
